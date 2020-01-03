@@ -1,8 +1,8 @@
 {
-    "name": "tanguy/cari-newletters",
+    "name": "tanguy/cari-plugin",
     "authors": [
         {
-            "name": "Tanguy",
+            "name": "Bazire Tanguy",
             "email": "tanguy731@hotmail.fr"
         }
     ],
@@ -21,7 +21,7 @@
     "autoload": {
         "psr-0": {
             "Model\\": "src",
-			"Entity\\": "src"
+            "Entity\\": "src"
 		}
     }
 }
