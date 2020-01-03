@@ -317,29 +317,35 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/engel731/table-reader.git",
-                "reference": "6b2fbab043f07906576beff356ca5687a9819167"
+                "reference": "7f0943d16ecc4333ac2ebd1ba10cdca9967b71ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/engel731/table-reader/zipball/6b2fbab043f07906576beff356ca5687a9819167",
-                "reference": "6b2fbab043f07906576beff356ca5687a9819167",
+                "url": "https://api.github.com/repos/engel731/table-reader/zipball/7f0943d16ecc4333ac2ebd1ba10cdca9967b71ba",
+                "reference": "7f0943d16ecc4333ac2ebd1ba10cdca9967b71ba",
                 "shasum": ""
             },
             "require": {
                 "phpoffice/phpspreadsheet": "1.9.*"
             },
             "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TableReader\\": "lib/"
+                }
+            },
             "authors": [
                 {
-                    "name": "Tanguy",
+                    "name": "Tanguy Bazire",
                     "email": "tanguy731@hotmail.fr"
                 }
             ],
+            "description": "Bibliothèque faite maison pour le transcripteur de tableau Excel configurable",
             "support": {
                 "source": "https://github.com/engel731/table-reader/tree/master",
                 "issues": "https://github.com/engel731/table-reader/issues"
             },
-            "time": "2020-01-03T10:35:56+00:00"
+            "time": "2020-01-03T12:40:45+00:00"
         }
     ],
     "packages-dev": [],
