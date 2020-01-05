@@ -2,6 +2,20 @@
 
 class Cari_Transcripteur
 {
+    public function __construct() {
+        
+    }
+
+    public function send_touring() 
+    {
+
+    }
+
+    public function send_street_listing() 
+    {
+
+    }
+
     public static function install()
     {
         global $wpdb;
