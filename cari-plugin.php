@@ -9,8 +9,8 @@ Author: Bazire Tanguy
 
 class Cari_Plugin
 {
-    protected $_transcripteur;
-    protected $_newletters;
+    private $_transcripteur;
+    private $_newletters;
 
     public function __construct()
     {
@@ -21,12 +21,12 @@ class Cari_Plugin
         $this->_newletters = new Cari_Newletters();
 
         // Cari_Newletters
-        register_activation_hook(__FILE__, array('Cari_Newletters', 'install'));
-        register_uninstall_hook(__FILE__, array('Cari_Newletters', 'uninstall'));
+        register_activation_hook(__FILE__, array($this->_newletters, 'install'));
+        register_uninstall_hook(__FILE__, array($this->_newletters, 'uninstall'));
 
         // Cari_Transcripteur
-        register_activation_hook(__FILE__, array('Cari_Transcripteur', 'install'));
-        register_uninstall_hook(__FILE__, array('Cari_Transcripteur', 'uninstall'));
+        register_activation_hook(__FILE__, array($this->_transcripteur, 'install'));
+        register_uninstall_hook(__FILE__, array($this->_transcripteur, 'uninstall'));
 
         add_action('admin_menu', array($this, 'add_admin_menu'));
     }

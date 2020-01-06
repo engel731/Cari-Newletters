@@ -1,9 +1,16 @@
 <?php 
 
+use Model\MailManager;
+
 class Cari_Newletters
 {
+    private $_mailManager;
+    
     public function __construct() 
     {
+        global $wpdb;
+        $this->_mailManager = new MailManager($wpdb);
+
         add_action('admin_init', array($this, 'register_settings'));
     }
 
@@ -22,17 +29,7 @@ class Cari_Newletters
 
     public function send_newsletter()
     {
-        global $wpdb;
 
-        /*$recipients = $wpdb->get_results("SELECT email FROM {$wpdb->prefix}zero_newsletter_email");
-        $object = get_option('zero_newsletter_object', 'Newsletter');
-        $content = get_option('zero_newsletter_content', 'Mon contenu');
-        $sender = get_option('zero_newsletter_sender', 'no-reply@example.com');
-        $header = array('From: '.$sender);
-
-        foreach ($recipients as $_recipient) {
-            $result = wp_mail($_recipient->email, $object, $content, $header);
-        }*/
     }
     
     public function section_html()
@@ -68,26 +65,6 @@ class Cari_Newletters
         </textarea><?php
     }
 
-    public static function install()
-    {
-        global $wpdb;
-
-        $charset_collate = $wpdb->get_charset_collate();
-
-        $wpdb->query(
-            "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}mail_listing (
-                id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT, 
-                lieu SMALLINT UNSIGNED NOT NULL,
-                mail VARCHAR(60) NOT NULL,
-                PRIMARY KEY (id)
-            ){$charset_collate};"
-        );
-    }
-
-    public static function uninstall()
-    {
-        global $wpdb;
-
-        $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}mail_listing;");
-    }
+    public function install() { $this->_mailManager->create(); }
+    public function uninstall() { $this->_mailManager->delete(); }
 }

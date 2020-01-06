@@ -1,65 +1,79 @@
 <?php
   namespace Model;
+
+  use Entity\Touring;
   
   class TouringManager
   {
-    private $_db; // Instance de PDO.
+    private $_wpdb; // Instance de WPDB.
 
-    public function __construct($db)
+    public function __construct($wpdb)
     {
-      $this->setDb($db);
+      $this->setWpdb($wpdb);
     }
 
     public function add(Touring $touring)
     {
+      $wpdb = $this->_wpdb;
+      
       if($this->notExistItem($touring)) {
-        $req = $this->_db->prepare('INSERT INTO touring(type_dechet, ref_calendrier, date_passage) VALUES(:type_dechet, :ref_calendrier, :date_passage)');
-       
-        $req->execute(array(
-          'type_dechet' => $touring->type_dechet(),
-          'ref_calendrier' => $touring->ref_calendrier(),
-          'date_passage' => $touring->date_passage()->format('Y-m-d')
-        ));
-      }
-    }
+        $wpdb->insert(
+          "{$wpdb->prefix}cari_touring",
 
-    public function delete(Touring $touring)
-    {
-      // Exécute une requête de type DELETE.
+          array(
+              'type_dechet' => $touring->type_dechet(),
+              'ref_calendrier' => $touring->ref_calendrier(),
+              'date_passage' => $touring->date_passage()->format('Y-m-d')
+          ),
+
+          array('%s','%s','%s')
+        );
+
+        return true;
+      }
+
+      return false;
     }
 
     public function notExistItem(Touring $touring) 
     {
-      $req = $this->_db->prepare('SELECT id FROM touring WHERE type_dechet = :type_dechet AND ref_calendrier = :ref_calendrier AND  date_passage = :date_passage');
+      $wpdb = $this->_wpdb;
       
-      $req->execute(array(
-        'type_dechet' => $touring->type_dechet(),
-        'ref_calendrier' => $touring->ref_calendrier(),
-        'date_passage' => $touring->date_passage()->format('Y-m-d')
-      ));
+      $row = $wpdb->get_row(
+        $wpdb->prepare(
+          "SELECT id FROM {$wpdb->prefix}cari_touring WHERE type_dechet = %s AND ref_calendrier = %s AND  date_passage = %s",
+          $touring->type_dechet(),
+          $touring->ref_calendrier(),
+          $touring->date_passage()->format('Y-m-d')
+        )
+      );
 
-      return (!$req->fetch()) ? true : false;
+      return ($row == null) ? true : false;
     }
 
-    public function get($id)
-    {
-      // Exécute une requête de type SELECT avec une clause WHERE, et retourne un objet Touring.
+    public function create() {
+      $wpdb = $this->_wpdb;
+      $charset_collate = $wpdb->get_charset_collate();
+
+      $wpdb->query(
+        "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}cari_touring (
+            id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT, 
+            type_dechet VARCHAR(20) NOT NULL,
+            ref_calendrier VARCHAR(20) NOT NULL,
+            date_passage DATE NOT NULL,
+            PRIMARY KEY (id)
+        ){$charset_collate};"
+      );
     }
 
-    public function getList()
-    {
-      // Retourne la liste de toutes les tournée.
+    public function delete() {
+      $wpdb = $this->_wpdb;
+      
+      $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}cari_touring;");
     }
 
-    public function update(Touring $touring)
+    public function setWpdb($wpdb)
     {
-      // Prépare une requête de type UPDATE.
-      // Assignation des valeurs à la requête.
-      // Exécution de la requête.
-    }
-
-    public function setDb(PDO $db)
-    {
-      $this->_db = $db;
+      $this->_wpdb = $wpdb;
     }
   }
