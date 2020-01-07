@@ -40,9 +40,9 @@ class Cari_Plugin
     public function process_action()
     {
         if (isset($_POST['send_street_listing'])) {
-            $this->_transcripteur->send_street_listing();
+            add_action('cari_transcripteur_form_display', array($this->_transcripteur, 'send_street_listing'));
         } else if (isset($_POST['send_touring'])) {
-            $this->_newletters->send_touring();
+            add_action('cari_transcripteur_form_display', array($this->_transcripteur, 'send_touring'));
         }
     }
 
@@ -65,6 +65,8 @@ class Cari_Plugin
                         <input type="submit" name="submit" id="submit" class="button button-primary" value="Inserer la liste des tournées">
                     </form>
                 </div>
+
+                <?php do_action('cari_transcripteur_form_display'); ?>
             </div>
         </section>
 

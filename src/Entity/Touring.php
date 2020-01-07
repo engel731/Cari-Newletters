@@ -62,7 +62,7 @@
       }
     }
 
-    public function setDate_passage(DateTime $date_passage)
+    public function setDate_passage(\DateTime $date_passage)
     {
       $this->_date_passage = $date_passage;
     }

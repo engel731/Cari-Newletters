@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b461b94803d8b103c32e3142758df79f",
+    "content-hash": "1f43a3e51e537f99a37c2723dac2628b",
     "packages": [
         {
             "name": "markbaker/complex",
@@ -317,12 +317,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/engel731/table-reader.git",
-                "reference": "7f0943d16ecc4333ac2ebd1ba10cdca9967b71ba"
+                "reference": "52a788c76052da96d18852d0f5c93ff09de41263"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/engel731/table-reader/zipball/7f0943d16ecc4333ac2ebd1ba10cdca9967b71ba",
-                "reference": "7f0943d16ecc4333ac2ebd1ba10cdca9967b71ba",
+                "url": "https://api.github.com/repos/engel731/table-reader/zipball/52a788c76052da96d18852d0f5c93ff09de41263",
+                "reference": "52a788c76052da96d18852d0f5c93ff09de41263",
                 "shasum": ""
             },
             "require": {
@@ -331,7 +331,8 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "TableReader\\": "lib/"
+                    "TableReader\\": "lib/",
+                    "TableReader\\Config\\": "lib/config/"
                 }
             },
             "authors": [
@@ -345,7 +346,7 @@
                 "source": "https://github.com/engel731/table-reader/tree/master",
                 "issues": "https://github.com/engel731/table-reader/issues"
             },
-            "time": "2020-01-03T12:40:45+00:00"
+            "time": "2020-01-07T16:17:45+00:00"
         }
     ],
     "packages-dev": [],
