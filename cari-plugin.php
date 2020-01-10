@@ -20,6 +20,8 @@ class Cari_Plugin
         $this->_transcripteur = new Cari_Transcripteur();
         $this->_newletters = new Cari_Newletters();
 
+        new Cari_Subscriber();
+
         // Cari_Newletters
         register_activation_hook(__FILE__, array($this->_newletters, 'install'));
         register_uninstall_hook(__FILE__, array($this->_newletters, 'uninstall'));
@@ -29,6 +31,7 @@ class Cari_Plugin
         register_uninstall_hook(__FILE__, array($this->_transcripteur, 'uninstall'));
 
         add_action('admin_menu', array($this, 'add_admin_menu'));
+        add_action('rest_api_init', function() { new Cari_Api(); });
     }
 
     public function add_admin_menu() 
@@ -73,7 +76,7 @@ class Cari_Plugin
         <section style="margin-bottom: 20px;">
             <div style="border-bottom: 5px solid rgb(110, 100, 190); display: inline-block; padding: 10px; background-color: #E6E5E5; box-shadow: 2px 2px 1px black;">  
                 <h2>Shortcodes WordPress</h2>
-                <code>[nom_du_shortcode attribut1="valeur1" attribut2="valeur2"]</code>
+                <code>[cari_subscriber_newletters]</code>
             </div>
         </section>
               

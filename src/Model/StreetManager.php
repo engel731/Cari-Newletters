@@ -21,7 +21,7 @@
           FROM {$wpdb->prefix}cari_street_listing 
           WHERE MATCH(intitule_voie) 
           AGAINST (%s IN BOOLEAN MODE)
-          LIMIT 3'",
+          LIMIT 3",
 
           $keypress
         ), 
