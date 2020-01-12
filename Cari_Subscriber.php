@@ -8,35 +8,43 @@ class Cari_Subscriber {
     }
 
     public function subscriber_scripts() {
-        wp_register_script('suggestion_engine', '/wp-content/plugins/cari-plugin/js/suggestion_engine.js');
+        wp_register_script('suggestion_engine', plugins_url('js/suggestion_engine.js', __FILE__));
     }
 
     public function subscriber_html($atts, $content) 
     {
+        wp_enqueue_style('bootstrap');
+        wp_enqueue_style('template');
+        
         wp_enqueue_script('suggestion_engine');
         
         $html = array();
         
-        $html[] = '<section class="inscription">';
-            $html[] = '<h2>Inscription : </h2>';
-            
-            $html[] = '<form method="post" action="">';
-                $html[] = '<p><input class="field" name="mail" type="email" placeholder="Votre courriel" /></p>';
-                $html[] = '<input class="field" id="search" type="text" autocomplete="off" placeholder="Votre rue" required />';
+        $html[] = '<div class="container">';
+            $html[] = '<div class="row justify-content-center">';
+                $html[] = '<form method="post" action="" class="col-sm-12">';
+                    $html[] = '<div class="form-group">';
+                        $html[] = '<input name="mail" type="email" placeholder="Votre courriel" class="form-control" />';
+                    $html[] = '</div>';
                 
-                $html[] = '<div id="results"></div>';
-                $html[] = '<div id="results-id" style="display: none"></div>';
-                $html[] = '<div id="results-quartier" style="display: none"></div>';
-                $html[] = '<div id="results-street" style="display: none"></div>';
+                    $html[] = '<div class="form-group">';
+                        $html[] = '<input id="search" type="text" autocomplete="off" placeholder="Nom de votre rue" required class="form-control" />';
+                        $html[] = '<div id="results" class="cari-suggestion form-control"></div>';
+                    $html[] = '</div>';
+                    
+                    $html[] = '<div id="results-id" style="display: none"></div>';
+                    $html[] = '<div id="results-quartier" style="display: none"></div>';
+                    $html[] = '<div id="results-street" style="display: none"></div>';
 
-                $html[] = '<input id="id" type="hidden" name="id-lieu" />';
-                $html[] = '<input id="quartier" type="hidden" name="quartier" />';
-                $html[] = '<input id="street" type="hidden" name="street" /><br />';
-            
-                $html[] = '<p><input type="submit" value="Envoyer" /></p>';
-                $html[] = apply_filters('cari_shortcode_response', $response = '');
-            $html[] = '</form>';
-        $html[] = '</section>';
+                    $html[] = '<input id="id" type="hidden" name="id-lieu" />';
+                    $html[] = '<input id="quartier" type="hidden" name="quartier" />';
+                    $html[] = '<input id="street" type="hidden" name="street" />';
+                
+                    $html[] = '<input type="submit" value="S\'abonner" class="form-control" />';
+                    $html[] = apply_filters('cari_shortcode_response', $response = '');
+                $html[] = '</form>';
+            $html[] = '</div>';
+        $html[] = '</div>';
 
         return implode('', $html);
     }

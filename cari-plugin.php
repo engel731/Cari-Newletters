@@ -30,8 +30,14 @@ class Cari_Plugin
         register_activation_hook(__FILE__, array($this->_transcripteur, 'install'));
         register_uninstall_hook(__FILE__, array($this->_transcripteur, 'uninstall'));
 
+        add_action('init', array($this, 'load_style_plugin'));
         add_action('admin_menu', array($this, 'add_admin_menu'));
         add_action('rest_api_init', function() { new Cari_Api(); });
+    }
+
+    public function load_style_plugin() {
+        wp_register_style('bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css');
+        wp_register_style('template', plugins_url('css/template.css', __FILE__));
     }
 
     public function add_admin_menu() 
@@ -51,44 +57,46 @@ class Cari_Plugin
 
     public function menu_html()
     {
-        echo '<h1 style="padding: 10px">'.get_admin_page_title().'</h1>';
+        wp_enqueue_style('bootstrap');
+        wp_enqueue_style('template');
         
-        ?><section style="margin-bottom: 20px;">
-            <div style="border-bottom: 5px solid rgb(110, 100, 190); display: inline-block; padding: 10px; background-color: #E6E5E5; box-shadow: 2px 2px 1px black;">
+        ?><div class="cari-container-settings container text-center">
+            <header class="page-header">
+                <h1><?php echo get_admin_page_title() ?></h1>
+                <code>[cari_subscriber_newletters]</code>
+            </header><br />
+            
+            <section>
                 <h2>Transcripteur EXCEL ► BDD</h2>
 
-                <div style="display: flex">
-                    <form method="post" action="">
+                <form method="post" action="">
+                    <div class="form-group">
                         <input type="hidden" name="send_street_listing" value="1"/>
-                        <input style="margin-right: 10px" type="submit" name="submit" id="submit" class="button button-primary" value="Inserer la liste des rues">
-                    </form>
-                
-                    <form method="post" action="">
+                        <input type="submit" name="submit" class="form-control button button-primary" value="Inserer la liste des rues">
+                    </div>
+                </form>
+            
+                <form method="post" action="">
+                    <div class="form-group">
                         <input type="hidden" name="send_touring" value="1"/>
-                        <input type="submit" name="submit" id="submit" class="button button-primary" value="Inserer la liste des tournées">
-                    </form>
-                </div>
+                        <input type="submit" name="submit" class="form-control button button-primary" value="Inserer la liste des tournées">
+                    </div>
+                </form>
 
                 <?php do_action('cari_transcripteur_form_display'); ?>
-            </div>
-        </section>
-
-        <section style="margin-bottom: 20px;">
-            <div style="border-bottom: 5px solid rgb(110, 100, 190); display: inline-block; padding: 10px; background-color: #E6E5E5; box-shadow: 2px 2px 1px black;">  
-                <h2>Shortcodes WordPress</h2>
-                <code>[cari_subscriber_newletters]</code>
-            </div>
-        </section>
-              
-        <section style="margin-bottom: 20px;">
-            <div style="border-bottom: 5px solid rgb(110, 100, 190); display: inline-block; padding: 10px; background-color: #E6E5E5; box-shadow: 2px 2px 1px black;">  
+            </section>
+                
+            <section><br />
                 <form method="post" action="options.php">
-                    <?php settings_fields('cari_newsletter_settings') ?>
-                    <?php do_settings_sections('cari_newsletter_settings') ?>
-                    <input type="submit" name="submit" id="submit" class="button button-primary" value="Enregistrer les modifications">
+                    <div class="form-group">
+                        <?php settings_fields('cari_newsletter_settings') ?>
+                        <?php do_settings_sections('cari_newsletter_settings') ?>
+                    </div>
+
+                    <input type="submit" name="submit" class="form-control button button-primary" value="Enregistrer les modifications">
                 </form>
-            </div>
-        </section><?php
+            </section>
+        </div><?php
     }
 }
 

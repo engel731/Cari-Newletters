@@ -1,0 +1,27 @@
+/* Administration */
+
+.cari-container-settings { 
+    max-width: 700px;
+    background-color: #F5F5F5; 
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.cari-container-settings h1 { font-size: 22px }
+.cari-container-settings h2 { font-size: 18px }
+.cari-container-settings code { color: grey }
+
+/* Shortcode */
+
+.cari-suggestion {
+    height: auto;
+    padding: 0;
+    font-size: 1.5rem;
+}
+
+.cari-suggestion > div { padding: 0.375rem 0.75rem }
+
+.cari-suggestion > div:hover { 
+    background-color: #F5F5F5; 
+    cursor: pointer;
+}

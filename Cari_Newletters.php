@@ -73,7 +73,7 @@ class Cari_Newletters
     public function sender_html()
     {
         ?><input 
-            style="width: 230px" 
+            class="form-control"
             type="email" 
             name="cari_newsletter_sender" 
             value="<?php echo get_option('cari_newsletter_sender')?>"
@@ -83,7 +83,7 @@ class Cari_Newletters
     public function object_html()
     {
         ?><input 
-            style="width: 230px" 
+            class="form-control"
             type="text" 
             name="cari_newsletter_object" 
             value="<?php echo get_option('cari_newsletter_object')?>"
@@ -93,9 +93,9 @@ class Cari_Newletters
     public function content_html()
     {
         ?><textarea 
-            style="height: 100px; width: 250px;" 
-            name="cari_newsletter_content"><?php echo get_option('cari_newsletter_content')?>
-        </textarea><?php
+            class="form-control" 
+            style="height: 100px;" 
+            name="cari_newsletter_content"><?php echo get_option('cari_newsletter_content')?></textarea><?php
     }
 
     public function install() { $this->_mailManager->create(); }
