@@ -5,7 +5,7 @@
   
   class TouringManager
   {
-    private $_wpdb; // Instance de WPDB.
+    private $_wpdb;
 
     public function __construct($wpdb)
     {
@@ -66,10 +66,16 @@
       );
     }
 
+    public function cleanWholeTable() {
+      $wpdb = $this->_wpdb;
+
+      $wpdb->query("TRUNCATE TABLE {$wpdb->prefix}cari_touring"); 
+    }
+
     public function delete() {
       $wpdb = $this->_wpdb;
       
-      $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}cari_touring;");
+      $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}cari_touring");
     }
 
     public function setWpdb($wpdb)

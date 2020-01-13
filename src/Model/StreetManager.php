@@ -105,9 +105,15 @@
       );
     }
 
+    public function cleanWholeTable() {
+      $wpdb = $this->_wpdb;
+
+      $wpdb->query("TRUNCATE TABLE {$wpdb->prefix}cari_street_listing"); 
+    }
+
     public function delete() {
       $wpdb = $this->_wpdb;
-      $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}cari_street_listing;");
+      $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}cari_street_listing");
     }
 
     public function setWpdb($wpdb)

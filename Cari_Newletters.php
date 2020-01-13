@@ -33,7 +33,8 @@ class Cari_Newletters
         add_settings_field('cari_newsletter_content', 'Contenu',    array($this, 'content_html'), 'cari_newsletter_settings', 'cari_newsletter_section');
     }
 
-    public function save_mail($msg) {
+    public function save_mail($msg) 
+    {
         if(isset($_POST['mail'], $_POST['id-lieu'])) {
             if($this->_streetManager->idDoesExist($_POST['id-lieu'])) {
                 $mail = new Mail([
@@ -42,9 +43,12 @@ class Cari_Newletters
                 ]);
                 
                 if($mail->isValid()) {
-                    $this->_mailManager->add($mail);
-
-                    $response = 'L\'email à bien été ajouté'; 
+                    if($this->_mailManager->notDoubleLocation($mail)) {
+                        $this->_mailManager->add($mail);
+                        $response = 'L\'email à bien été ajouté'; 
+                    } else {
+                        $response = 'L\'email est déjà présente pour ce lieu'; 
+                    }
                 } else {
                     $erreur = $mail->erreurs()[0];
         
@@ -62,7 +66,34 @@ class Cari_Newletters
 
     public function send_newsletter()
     {
+        $mails = $this->_mailManager->getMailToSend($wpdb);
+        $sender = get_option('cari_newsletter_sender', 'tanguy731.freelance@gmail.com');
+        $header = array('From: '.$sender);
+       
+        foreach($mails as $mail) {
+            $object = get_option('cari_newsletter_object', 'Ramassage pour @type_dechet');
+            $content = get_option('cari_newsletter_content', 'Pensez à deposer @type_dechet à l\'endroit habituel');
 
+            switch ($mail['dechet']) {
+                case "Bac gris":
+                    $dechet = "le bac gris";
+                    break;
+                case "Bac Jaune":
+                    $dechet = "le bac jaune";
+                    break;
+                case "Emcombrants":
+                    $dechet = "les emcombrants";
+                    break;
+                case "Déchets verts":
+                    $dechet = "les déchets verts";
+                    break;
+            }
+
+            $object = preg_replace("#@type_dechet#", $dechet, $object);
+            $content = preg_replace("#@type_dechet#", $dechet, $content);
+            
+            wp_mail($mail['mail'], $object, $content, $header);
+        }
     }
     
     public function section_html()

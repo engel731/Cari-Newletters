@@ -23,6 +23,8 @@ class Cari_Transcripteur
 
     public function send_touring() 
     {
+        $this->_touringManager->cleanWholeTable();
+        
         include_once(plugin_dir_path(__FILE__).'config.php');
         $config = $config['touring']();
         
@@ -47,6 +49,8 @@ class Cari_Transcripteur
 
     public function send_street_listing() 
     {
+        $this->_streetManager->cleanWholeTable();
+        
         include_once(plugin_dir_path(__FILE__).'config.php');
         $config = $config['street-listing']();
         

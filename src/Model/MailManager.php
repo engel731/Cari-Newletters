@@ -12,6 +12,39 @@
       $this->setWpdb($wpdb);
     }
 
+    public function getMailToSend() {
+      $wpdb = $this->_wpdb;
+
+      $resultats = $wpdb->get_results(
+        "SELECT m.mail mail, t.type_dechet dechet
+        FROM {$wpdb->prefix}cari_mail_listing m
+        INNER JOIN {$wpdb->prefix}cari_street_listing s
+        ON m.lieu = s.id
+        INNER JOIN {$wpdb->prefix}cari_touring t
+        ON s.ref_calendrier = t.ref_calendrier
+        WHERE t.date_passage = DATE_ADD(CURDATE(), INTERVAL 1 DAY)",
+
+        ARRAY_A
+      );
+
+      return $resultats;
+    }
+
+    public function notDoubleLocation(Mail $mail) 
+    {
+      $wpdb = $this->_wpdb;
+        
+      $row = $wpdb->get_row(
+        $wpdb->prepare(
+          "SELECT id FROM {$wpdb->prefix}cari_mail_listing WHERE mail = %s AND lieu = %s",
+          $mail->mail(),
+          $mail->lieu()
+        )
+      );
+
+      return ($row == null) ? true : false;
+    }
+
     public function add(Mail $mail)
     {
       $wpdb = $this->_wpdb;
@@ -48,7 +81,7 @@
 
     public function delete() {
       $wpdb = $this->_wpdb;
-      $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}cari_mail_listing;");
+      $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}cari_mail_listing");
     }
 
     public function setWpdb($wpdb)
