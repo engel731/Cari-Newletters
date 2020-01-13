@@ -21,7 +21,7 @@ class Cari_Transcripteur
         $this->_touringManager = new TouringManager($wpdb);
     }
 
-    public function send_touring() 
+    public function send_touring($silence = false) 
     {
         $this->_touringManager->cleanWholeTable();
         
@@ -44,7 +44,7 @@ class Cari_Transcripteur
             $row++;
         }
 
-        echo $row . ' lignes insérés';
+        if(!$silence) echo $row . ' lignes insérés';
     }
 
     public function send_street_listing() 
@@ -86,7 +86,11 @@ class Cari_Transcripteur
         $this->_streetManager->create();
         $this->_touringManager->create();
 
-        mkdir(__DIR__ . '/ressource/');
+        $ressource_path = __DIR__ . '/ressource/';
+        
+        if(!is_dir($ressource_path)) {
+            mkdir($ressource_path);
+        }
     }
 
     public function uninstall()

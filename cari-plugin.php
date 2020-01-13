@@ -22,6 +22,10 @@ class Cari_Plugin
 
         new Cari_Subscriber();
 
+        // cari_plugin
+        register_activation_hook(__FILE__, array($this, 'install'));
+        register_uninstall_hook(__FILE__, array($this, 'uninstall'));
+        
         // Cari_Newletters
         register_activation_hook(__FILE__, array($this->_newletters, 'install'));
         register_uninstall_hook(__FILE__, array($this->_newletters, 'uninstall'));
@@ -33,6 +37,27 @@ class Cari_Plugin
         add_action('init', array($this, 'load_style_plugin'));
         add_action('admin_menu', array($this, 'add_admin_menu'));
         add_action('rest_api_init', function() { new Cari_Api(); });
+
+        add_action('cari_cron_dowload_touring', array($this->_transcripteur, 'send_touring'));
+        add_action('cari_cron_send_newsletter', array($this->_newletters, 'send_newsletter'));
+    }
+
+    public function install() {
+        if (!wp_next_scheduled('cari_cron_dowload_touring')) {
+            wp_schedule_event(time(), 'daily', 'cari_cron_dowload_touring', array('true'));
+        }
+
+        if (!wp_next_scheduled('cari_cron_send_newsletter')) {
+            wp_schedule_event(time(), 'daily', 'cari_cron_send_newsletter');
+        }
+    }
+
+    public function uninstall() {
+        $timestamp = wp_next_scheduled('cari_cron_dowload_touring');
+        wp_unschedule_event($timestamp, 'cari_cron_dowload_touring');
+
+        $timestamp = wp_next_scheduled('cari_cron_send_newsletter');
+        wp_unschedule_event($timestamp, 'cari_cron_send_newsletter');
     }
 
     public function load_style_plugin() {
