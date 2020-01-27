@@ -9,7 +9,7 @@ use Model\TouringManager;
 use TableReader\ListReader;
 use TableReader\GridReader;
 
-class Cari_Transcripteur
+class Cinor_Crom_Transcripteur
 {
     private $_streetManager;
     private $_touringManager;

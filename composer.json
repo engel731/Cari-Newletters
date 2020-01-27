@@ -1,18 +1,6 @@
 {
-    "name": "tanguy/cari-plugin",
-    "authors": [
-        {
-            "name": "Bazire Tanguy",
-            "email": "tanguy731@hotmail.fr"
-        }
-    ],
-
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/engel731/table-reader"
-        }
-    ],
+    "name": "cari/cinor-crom",
+    "description": "Gestion des calendriers de ramassage des ordures ménagères (alerting et affichage)",
     
     "require": {
         "tanguy/table-reader": "dev-master"

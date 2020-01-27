@@ -2,10 +2,10 @@
 
 use Model\StreetManager;
 
-class Cari_Api 
+class Cinor_Crom_Api 
 {
     public function __construct() {
-        register_rest_route("cari/v1", "street/(?P<keypress>[%\w]*+)", [
+        register_rest_route("cinor_crom/v1", "street/(?P<keypress>[%\w]*+)", [
             'methods' => 'GET',
             'callback' => array($this, 'get_street')
         ]);

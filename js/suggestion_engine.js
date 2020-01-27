@@ -16,7 +16,7 @@
 	
 	function getResults(keywords) { 
 	    var xhr = new XMLHttpRequest();
-	    xhr.open('GET', '/wp-json/cari/v1/street/'+ encodeURI(keywords));
+	    xhr.open('GET', '/wp-json/cinor_crom/v1/street/'+ encodeURI(keywords));
 	
     	xhr.addEventListener('readystatechange', function() {
         	if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {

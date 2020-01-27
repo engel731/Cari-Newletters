@@ -1,13 +1,14 @@
 <?php
 
 /*
-Plugin Name: Cari Plugin
-Description: Un plugin de newletters informant du ramassage des ordures pour la ville de Saint-Denis (Réunion)
+Plugin Name: CINOR CROM
+Description: Gestion des calendriers de ramassage des ordures ménagères (alerting et affichage)
 Version: 0.1
-Author: Bazire Tanguy
+Author: Cari
+Author URI: https://www.cari.agency/
 */
 
-class Cari_Plugin
+class Cinor_Crom
 {
     private $_transcripteur;
     private $_newletters;
@@ -17,47 +18,47 @@ class Cari_Plugin
         $loader = require 'vendor/autoload.php';
         $loader->addPsr4('', plugin_dir_path( __FILE__ ));
 
-        $this->_transcripteur = new Cari_Transcripteur();
-        $this->_newletters = new Cari_Newletters();
+        $this->_transcripteur = new Cinor_Crom_Transcripteur();
+        $this->_newletters = new Cinor_Crom_Newletters();
 
-        new Cari_Subscriber();
+        new Cinor_Crom_Subscriber();
 
-        // cari_plugin
+        // Cinor_Crom
         register_activation_hook(__FILE__, array($this, 'install'));
         register_uninstall_hook(__FILE__, array($this, 'uninstall'));
         
-        // Cari_Newletters
+        // Cinor_Crom_Newletters
         register_activation_hook(__FILE__, array($this->_newletters, 'install'));
         register_uninstall_hook(__FILE__, array($this->_newletters, 'uninstall'));
 
-        // Cari_Transcripteur
+        // Cinor_Crom_Transcripteur
         register_activation_hook(__FILE__, array($this->_transcripteur, 'install'));
         register_uninstall_hook(__FILE__, array($this->_transcripteur, 'uninstall'));
 
         add_action('init', array($this, 'load_style_plugin'));
         add_action('admin_menu', array($this, 'add_admin_menu'));
-        add_action('rest_api_init', function() { new Cari_Api(); });
+        add_action('rest_api_init', function() { new Cinor_Crom_Api(); });
 
-        add_action('cari_cron_dowload_touring', array($this->_transcripteur, 'send_touring'));
-        add_action('cari_cron_send_newsletter', array($this->_newletters, 'send_newsletter'));
+        add_action('cinor_crom_cron_dowload_touring', array($this->_transcripteur, 'send_touring'));
+        add_action('cinor_crom_cron_send_newsletter', array($this->_newletters, 'send_newsletter'));
     }
 
     public function install() {
-        if (!wp_next_scheduled('cari_cron_dowload_touring')) {
-            wp_schedule_event(time(), 'daily', 'cari_cron_dowload_touring', array('true'));
+        if (!wp_next_scheduled('cinor_crom_cron_dowload_touring')) {
+            wp_schedule_event(time(), 'daily', 'cinor_crom_cron_dowload_touring', array('true'));
         }
 
-        if (!wp_next_scheduled('cari_cron_send_newsletter')) {
-            wp_schedule_event(time(), 'daily', 'cari_cron_send_newsletter');
+        if (!wp_next_scheduled('cinor_crom_cron_send_newsletter')) {
+            wp_schedule_event(time(), 'daily', 'cinor_crom_cron_send_newsletter');
         }
     }
 
     public function uninstall() {
-        $timestamp = wp_next_scheduled('cari_cron_dowload_touring');
-        wp_unschedule_event($timestamp, 'cari_cron_dowload_touring');
+        $timestamp = wp_next_scheduled('cinor_crom_cron_dowload_touring');
+        wp_unschedule_event($timestamp, 'cinor_crom_cron_dowload_touring');
 
-        $timestamp = wp_next_scheduled('cari_cron_send_newsletter');
-        wp_unschedule_event($timestamp, 'cari_cron_send_newsletter');
+        $timestamp = wp_next_scheduled('cinor_crom_cron_send_newsletter');
+        wp_unschedule_event($timestamp, 'cinor_crom_cron_send_newsletter');
     }
 
     public function load_style_plugin() {
@@ -67,16 +68,16 @@ class Cari_Plugin
 
     public function add_admin_menu() 
     {
-        $hook = add_menu_page('Cari Plugin Newletters', 'Cari Plugin', 'manage_options', 'cari', array($this, 'menu_html'));
+        $hook = add_menu_page('CINOR CROM Newletters', 'CROM', 'manage_options', 'cinor_crom', array($this, 'menu_html'));
         add_action('load-'.$hook, array($this, 'process_action'));
     }
 
     public function process_action()
     {
         if (isset($_POST['send_street_listing'])) {
-            add_action('cari_transcripteur_form_display', array($this->_transcripteur, 'send_street_listing'));
+            add_action('cinor_crom_transcripteur_form_display', array($this->_transcripteur, 'send_street_listing'));
         } else if (isset($_POST['send_touring'])) {
-            add_action('cari_transcripteur_form_display', array($this->_transcripteur, 'send_touring'));
+            add_action('cinor_crom_transcripteur_form_display', array($this->_transcripteur, 'send_touring'));
         }
     }
 
@@ -85,10 +86,10 @@ class Cari_Plugin
         wp_enqueue_style('bootstrap');
         wp_enqueue_style('template');
         
-        ?><div class="cari-container-settings container text-center">
+        ?><div class="cinor-crom-container-settings container text-center">
             <header class="page-header">
                 <h1><?php echo get_admin_page_title() ?></h1>
-                <code>[cari_subscriber_newletters]</code>
+                <code>[cinor_crom]</code>
             </header><br />
             
             <section>
@@ -108,14 +109,14 @@ class Cari_Plugin
                     </div>
                 </form>
 
-                <?php do_action('cari_transcripteur_form_display'); ?>
+                <?php do_action('cinor_crom_transcripteur_form_display'); ?>
             </section>
                 
             <section><br />
                 <form method="post" action="options.php">
                     <div class="form-group">
-                        <?php settings_fields('cari_newsletter_settings') ?>
-                        <?php do_settings_sections('cari_newsletter_settings') ?>
+                        <?php settings_fields('cinor_crom_newsletter_settings') ?>
+                        <?php do_settings_sections('cinor_crom_newsletter_settings') ?>
                     </div>
 
                     <input type="submit" name="submit" class="form-control button button-primary" value="Enregistrer les modifications">
@@ -125,4 +126,4 @@ class Cari_Plugin
     }
 }
 
-new Cari_Plugin();
+new Cinor_Crom();

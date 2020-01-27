@@ -1,9 +1,10 @@
 <?php
 
-class Cari_Subscriber {
+class Cinor_Crom_Subscriber 
+{
     public function __construct()
     {                  
-        add_shortcode('cari_subscriber_newletters', array($this, 'subscriber_html'));
+        add_shortcode('cinor_crom', array($this, 'subscriber_html'));
         add_action('wp_enqueue_scripts', array($this, 'subscriber_scripts'));
     }
 
@@ -29,7 +30,7 @@ class Cari_Subscriber {
                 
                     $html[] = '<div class="form-group">';
                         $html[] = '<input id="search" type="text" autocomplete="off" placeholder="Nom de votre rue" required class="form-control" />';
-                        $html[] = '<div id="results" class="cari-suggestion form-control"></div>';
+                        $html[] = '<div id="results" class="cinor-crom-suggestion form-control"></div>';
                     $html[] = '</div>';
                     
                     $html[] = '<div id="results-id" style="display: none"></div>';
@@ -41,7 +42,7 @@ class Cari_Subscriber {
                     $html[] = '<input id="street" type="hidden" name="street" />';
                 
                     $html[] = '<input type="submit" value="S\'abonner" class="form-control" />';
-                    $html[] = apply_filters('cari_shortcode_response', $response = '');
+                    $html[] = apply_filters('cinor_crom_shortcode_response', $response = '');
                 $html[] = '</form>';
             $html[] = '</div>';
         $html[] = '</div>';

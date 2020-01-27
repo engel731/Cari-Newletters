@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1f43a3e51e537f99a37c2723dac2628b",
+    "content-hash": "2814d3ece24ef5a532cbfc7c52d3272d",
     "packages": [
         {
             "name": "markbaker/complex",
@@ -335,6 +335,7 @@
                     "TableReader\\Config\\": "lib/config/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
                     "name": "Tanguy Bazire",
@@ -342,10 +343,6 @@
                 }
             ],
             "description": "Bibliothèque faite maison pour le transcripteur de tableau Excel configurable",
-            "support": {
-                "source": "https://github.com/engel731/table-reader/tree/master",
-                "issues": "https://github.com/engel731/table-reader/issues"
-            },
             "time": "2020-01-07T16:17:45+00:00"
         }
     ],

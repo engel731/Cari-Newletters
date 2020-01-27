@@ -18,7 +18,7 @@
       
       if($this->notExistItem($touring)) {
         $wpdb->insert(
-          "{$wpdb->prefix}cari_touring",
+          "{$wpdb->prefix}cinor_crom_touring",
 
           array(
               'type_dechet' => $touring->type_dechet(),
@@ -41,7 +41,7 @@
       
       $row = $wpdb->get_row(
         $wpdb->prepare(
-          "SELECT id FROM {$wpdb->prefix}cari_touring WHERE type_dechet = %s AND ref_calendrier = %s AND  date_passage = %s",
+          "SELECT id FROM {$wpdb->prefix}cinor_crom_touring WHERE type_dechet = %s AND ref_calendrier = %s AND  date_passage = %s",
           $touring->type_dechet(),
           $touring->ref_calendrier(),
           $touring->date_passage()->format('Y-m-d')
@@ -56,7 +56,7 @@
       $charset_collate = $wpdb->get_charset_collate();
 
       $wpdb->query(
-        "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}cari_touring (
+        "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}cinor_crom_touring (
             id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT, 
             type_dechet VARCHAR(20) NOT NULL,
             ref_calendrier VARCHAR(20) NOT NULL,
@@ -69,13 +69,13 @@
     public function cleanWholeTable() {
       $wpdb = $this->_wpdb;
 
-      $wpdb->query("TRUNCATE TABLE {$wpdb->prefix}cari_touring"); 
+      $wpdb->query("TRUNCATE TABLE {$wpdb->prefix}cinor_crom_touring"); 
     }
 
     public function delete() {
       $wpdb = $this->_wpdb;
       
-      $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}cari_touring");
+      $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}cinor_crom_touring");
     }
 
     public function setWpdb($wpdb)
