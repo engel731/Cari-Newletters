@@ -89,8 +89,13 @@ class Cinor_Crom_Newletters
                     break;
             }
 
+            //@type_dechet
             $object = preg_replace("#@type_dechet#", $dechet, $object);
             $content = preg_replace("#@type_dechet#", $dechet, $content);
+
+            //@date_passage
+            $object = preg_replace("#@date_passage#", $dechet, $mail['date_passage']);
+            $content = preg_replace("#@date_passage#", $dechet, $mail['date_passage']);
             
             wp_mail($mail['mail'], $object, $content, $header);
         }

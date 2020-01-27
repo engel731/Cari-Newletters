@@ -16,7 +16,7 @@
       $wpdb = $this->_wpdb;
 
       $resultats = $wpdb->get_results(
-        "SELECT m.mail mail, t.type_dechet dechet
+        "SELECT m.mail mail, t.type_dechet dechet, DATE_FORMAT(t.date_passage, '%d/%m/%Y') date_passage
         FROM {$wpdb->prefix}cinor_crom_mail_listing m
         INNER JOIN {$wpdb->prefix}cinor_crom_street_listing s
         ON m.lieu = s.id

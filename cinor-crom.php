@@ -113,6 +113,11 @@ class Cinor_Crom
             </section>
                 
             <section><br />
+                <header>
+                    <code>@type_dechet = [le bac gris, le bac jaune, les emcombrants, les déchets verts]</code>
+                    <code>@date_passage = [Date du passage de la tournée]</code>
+                </header><br />
+                
                 <form method="post" action="options.php">
                     <div class="form-group">
                         <?php settings_fields('cinor_crom_newsletter_settings') ?>
